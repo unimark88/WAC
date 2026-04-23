@@ -22,7 +22,7 @@ export function AboutSection() {
         </div>
 
         {/* SEO Content */}
-        <div className="space-y-5 text-zinc-400 text-sm md:text-base leading-relaxed">
+        <div className="space-y-5 text-zinc-300 text-sm md:text-base leading-relaxed">
           <p>
             The World Alpha Championship (WAC) is the premier global forex trading competition, bringing together the most skilled traders from around the world to compete for prestigious titles and substantial prize pools. Our championship provides a transparent, fair, and professional platform where traders can demonstrate their expertise in the foreign exchange markets.
           </p>
@@ -49,7 +49,7 @@ export function AboutSection() {
             >
               50+
             </div>
-            <div className="mt-2 text-xs md:text-sm text-zinc-500 uppercase tracking-wider">
+            <div className="mt-2 text-xs md:text-sm text-zinc-400 uppercase tracking-wider">
               Countries
             </div>
           </div>
@@ -60,7 +60,7 @@ export function AboutSection() {
             >
               $500K
             </div>
-            <div className="mt-2 text-xs md:text-sm text-zinc-500 uppercase tracking-wider">
+            <div className="mt-2 text-xs md:text-sm text-zinc-400 uppercase tracking-wider">
               Prize Pool
             </div>
           </div>
@@ -71,7 +71,7 @@ export function AboutSection() {
             >
               MT4
             </div>
-            <div className="mt-2 text-xs md:text-sm text-zinc-500 uppercase tracking-wider">
+            <div className="mt-2 text-xs md:text-sm text-zinc-400 uppercase tracking-wider">
               Platform
             </div>
           </div>
@@ -82,7 +82,7 @@ export function AboutSection() {
             >
               Live
             </div>
-            <div className="mt-2 text-xs md:text-sm text-zinc-500 uppercase tracking-wider">
+            <div className="mt-2 text-xs md:text-sm text-zinc-400 uppercase tracking-wider">
               Rankings
             </div>
           </div>

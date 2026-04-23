@@ -30,7 +30,7 @@ export function Footer() {
                 className="group relative p-3 rounded-full border border-white/10 hover:border-[#00D4AA]/50 transition-all duration-300"
               >
                 <div className="absolute inset-0 rounded-full bg-[#00D4AA]/0 group-hover:bg-[#00D4AA]/10 transition-colors duration-300" />
-                <social.icon className="relative w-5 h-5 text-zinc-500 group-hover:text-[#00D4AA] transition-colors duration-300" />
+                <social.icon className="relative w-5 h-5 text-zinc-400 group-hover:text-[#00D4AA] transition-colors duration-300" />
               </a>
             ))}
           </div>
@@ -39,7 +39,7 @@ export function Footer() {
           <div className="w-full max-w-xs h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
           
           {/* Copyright */}
-          <p className="text-xs text-zinc-600 tracking-wide">
+          <p className="text-xs text-zinc-500 tracking-wide">
             &copy; {new Date().getFullYear()} World Alpha Championship. All rights reserved.
           </p>
         </div>
