@@ -5,6 +5,7 @@ import { Menu, X } from "lucide-react"
 
 const navItems = [
   { label: "Home", href: "#" },
+  { label: "About", href: "#about" },
   { label: "Rules", href: "#rules" },
   { label: "Leaderboard", href: "#leaderboard" },
   { label: "Prizes", href: "#prizes" },
@@ -49,7 +50,7 @@ export function Navigation() {
               <a
                 key={item.label}
                 href={item.href}
-                className="text-[13px] uppercase tracking-[0.15em] text-zinc-400 hover:text-white transition-colors duration-300"
+                className="text-[13px] uppercase tracking-[0.15em] text-zinc-300 hover:text-white transition-colors duration-300"
               >
                 {item.label}
               </a>
@@ -59,7 +60,7 @@ export function Navigation() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 text-zinc-400 hover:text-white transition-colors"
+            className="lg:hidden p-2 text-zinc-300 hover:text-white transition-colors"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -76,7 +77,7 @@ export function Navigation() {
                 key={item.label}
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="block text-sm uppercase tracking-[0.15em] text-zinc-400 hover:text-white transition-colors duration-300"
+                className="block text-sm uppercase tracking-[0.15em] text-zinc-300 hover:text-white transition-colors duration-300"
               >
                 {item.label}
               </a>

@@ -12,7 +12,7 @@ export function HeroSection() {
         <div className="text-center space-y-1 md:space-y-2">
           {/* WORLD */}
           <div 
-            className="text-[3rem] md:text-[3.5rem] lg:text-[5rem] xl:text-[6rem] leading-[0.9] tracking-[0.35em] md:tracking-[0.5em] text-zinc-500"
+            className="text-[3rem] md:text-[3.5rem] lg:text-[5rem] xl:text-[6rem] leading-[0.9] tracking-[0.35em] md:tracking-[0.5em] text-zinc-400"
             style={{
               fontFamily: 'var(--font-bebas), system-ui',
             }}
@@ -36,7 +36,7 @@ export function HeroSection() {
           
           {/* CHAMPIONSHIP */}
           <div 
-            className="text-[2.2rem] md:text-[2.5rem] lg:text-[3.5rem] xl:text-[4.5rem] leading-[0.9] tracking-[0.25em] md:tracking-[0.5em] text-zinc-500"
+            className="text-[2.2rem] md:text-[2.5rem] lg:text-[3.5rem] xl:text-[4.5rem] leading-[0.9] tracking-[0.25em] md:tracking-[0.5em] text-zinc-400"
             style={{
               fontFamily: 'var(--font-bebas), system-ui',
             }}
@@ -47,7 +47,7 @@ export function HeroSection() {
         
         {/* Coming Soon - understated */}
         <div className="mt-16 md:mt-24 lg:mt-32">
-          <span className="text-[10px] md:text-[11px] uppercase tracking-[0.35em] text-zinc-600">
+          <span className="text-[10px] md:text-[11px] uppercase tracking-[0.35em] text-zinc-500">
             Coming Soon
           </span>
         </div>

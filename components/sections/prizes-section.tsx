@@ -44,7 +44,7 @@ export function PrizesSection() {
           >
             Prizes
           </h2>
-          <p className="mt-6 text-zinc-500 text-sm max-w-md mx-auto">
+          <p className="mt-6 text-zinc-400 text-sm max-w-md mx-auto">
             Over $250,000 in total prizes across all categories
           </p>
         </div>
@@ -77,7 +77,7 @@ export function PrizesSection() {
               {/* Extras */}
               <ul className="space-y-3">
                 {prize.extras.map((extra) => (
-                  <li key={extra} className="text-sm text-zinc-500 flex items-start gap-2">
+                  <li key={extra} className="text-sm text-zinc-400 flex items-start gap-2">
                     <span className="w-1 h-1 rounded-full bg-zinc-700 mt-2 shrink-0" />
                     {extra}
                   </li>
@@ -89,11 +89,11 @@ export function PrizesSection() {
 
         {/* Additional prizes */}
         <div className="border-t border-zinc-800/50 pt-12">
-          <h3 className="text-xs uppercase tracking-[0.2em] text-zinc-600 mb-8">Additional Prizes</h3>
+          <h3 className="text-xs uppercase tracking-[0.2em] text-zinc-500 mb-8">Additional Prizes</h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {additionalPrizes.map((prize) => (
               <div key={prize.place}>
-                <div className="text-sm text-zinc-400 mb-1">{prize.place}</div>
+                <div className="text-sm text-zinc-300 mb-1">{prize.place}</div>
                 <div className="text-xl text-white" style={{ fontFamily: 'var(--font-bebas), system-ui' }}>
                   {prize.amount}
                 </div>

@@ -65,7 +65,7 @@ export function RulesSection() {
                   <h3 className="text-lg md:text-xl font-medium text-white mb-3">
                     {rule.title}
                   </h3>
-                  <p className="text-sm md:text-[15px] leading-relaxed text-zinc-500">
+                  <p className="text-sm md:text-[15px] leading-relaxed text-zinc-400">
                     {rule.description}
                   </p>
                 </div>
