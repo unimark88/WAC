@@ -6,10 +6,8 @@ import { Menu, X } from "lucide-react"
 const navItems = [
   { label: "Home", href: "#" },
   { label: "Rules", href: "#rules" },
-  { label: "Schedule", href: "#schedule" },
   { label: "Leaderboard", href: "#leaderboard" },
   { label: "Prizes", href: "#prizes" },
-  { label: "Contact Us", href: "#contact" },
 ]
 
 export function Navigation() {
