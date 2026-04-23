@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useCallback } from "react"
 
 interface Candle {
   open: number
@@ -13,75 +13,29 @@ interface Candle {
 
 export function HeroBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const animationRef = useRef<number>(0)
+  const offsetRef = useRef(0)
+  const candlesRef = useRef<Candle[]>([])
+  const dimensionsRef = useRef({ width: 0, height: 0 })
+  const isVisibleRef = useRef(true)
 
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
+  const CANDLE_WIDTH = 12
+  const CANDLE_GAP = 6
+  const TOTAL_WIDTH = CANDLE_WIDTH + CANDLE_GAP
+  const SCROLL_SPEED = 0.5
 
-    const ctx = canvas.getContext("2d")
-    if (!ctx) return
-
-    const CANDLE_WIDTH = 12
-    const CANDLE_GAP = 6
-    const TOTAL_WIDTH = CANDLE_WIDTH + CANDLE_GAP
-    const SCROLL_SPEED = 0.5
-
-    let animationId: number
-    let offset = 0
-    let candles: Candle[] = []
-    let width = 0
-    let height = 0
-
-    const resize = () => {
-      width = window.innerWidth
-      height = window.innerHeight
-      canvas.width = width
-      canvas.height = height
-      generateCandles()
-    }
-
-    const generateCandles = () => {
-      candles = []
-      const candleCount = Math.ceil(width / TOTAL_WIDTH) + 30
-      
-      let lastClose = height * 0.5
-      
-      for (let i = 0; i < candleCount; i++) {
-        const volatility = Math.random() * 80 + 30
-        const direction = Math.random() > 0.45 ? 1 : -1
-        const movement = direction * (Math.random() * volatility)
-        
-        const open = lastClose
-        const close = Math.max(height * 0.2, Math.min(height * 0.8, open + movement))
-        const isGreen = close < open
-        
-        const wickExtension = Math.random() * 40 + 10
-        const high = Math.min(open, close) - wickExtension
-        const low = Math.max(open, close) + wickExtension
-        
-        candles.push({
-          open,
-          close,
-          high,
-          low,
-          isGreen,
-          volume: Math.random() * 0.7 + 0.3
-        })
-        
-        lastClose = close
-      }
-    }
-
-    const addNewCandle = () => {
-      if (candles.length === 0) return
-      
-      const lastCandle = candles[candles.length - 1]
-      
+  const generateCandles = useCallback((height: number, width: number) => {
+    const candles: Candle[] = []
+    const candleCount = Math.ceil(width / TOTAL_WIDTH) + 30
+    
+    let lastClose = height * 0.5
+    
+    for (let i = 0; i < candleCount; i++) {
       const volatility = Math.random() * 80 + 30
       const direction = Math.random() > 0.45 ? 1 : -1
       const movement = direction * (Math.random() * volatility)
       
-      const open = lastCandle.close
+      const open = lastClose
       const close = Math.max(height * 0.2, Math.min(height * 0.8, open + movement))
       const isGreen = close < open
       
@@ -97,13 +51,73 @@ export function HeroBackground() {
         isGreen,
         volume: Math.random() * 0.7 + 0.3
       })
+      
+      lastClose = close
+    }
+    
+    return candles
+  }, [TOTAL_WIDTH])
+
+  const addNewCandle = useCallback((height: number) => {
+    const candles = candlesRef.current
+    if (candles.length === 0) return
+    
+    const lastCandle = candles[candles.length - 1]
+    
+    const volatility = Math.random() * 80 + 30
+    const direction = Math.random() > 0.45 ? 1 : -1
+    const movement = direction * (Math.random() * volatility)
+    
+    const open = lastCandle.close
+    const close = Math.max(height * 0.2, Math.min(height * 0.8, open + movement))
+    const isGreen = close < open
+    
+    const wickExtension = Math.random() * 40 + 10
+    const high = Math.min(open, close) - wickExtension
+    const low = Math.max(open, close) + wickExtension
+    
+    candles.push({
+      open,
+      close,
+      high,
+      low,
+      isGreen,
+      volume: Math.random() * 0.7 + 0.3
+    })
+  }, [])
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const ctx = canvas.getContext("2d", { alpha: false })
+    if (!ctx) return
+
+    const resize = () => {
+      const width = window.innerWidth
+      const height = window.innerHeight
+      
+      // Use device pixel ratio for crisp rendering but cap it for performance
+      const dpr = Math.min(window.devicePixelRatio || 1, 2)
+      
+      canvas.width = width * dpr
+      canvas.height = height * dpr
+      canvas.style.width = `${width}px`
+      canvas.style.height = `${height}px`
+      
+      ctx.scale(dpr, dpr)
+      
+      dimensionsRef.current = { width, height }
+      candlesRef.current = generateCandles(height, width)
+      offsetRef.current = 0
     }
 
     const draw = () => {
-      // Clear canvas completely
-      ctx.clearRect(0, 0, width, height)
-      
-      // Fill background
+      const { width, height } = dimensionsRef.current
+      const candles = candlesRef.current
+      const offset = offsetRef.current
+
+      // Clear and fill background
       ctx.fillStyle = "#050507"
       ctx.fillRect(0, 0, width, height)
 
@@ -196,39 +210,63 @@ export function HeroBackground() {
     }
 
     const animate = () => {
-      offset += SCROLL_SPEED
+      if (!isVisibleRef.current) {
+        animationRef.current = requestAnimationFrame(animate)
+        return
+      }
+
+      offsetRef.current += SCROLL_SPEED
       
       // When scrolled one candle width, remove first and add new
-      if (offset >= TOTAL_WIDTH) {
-        offset -= TOTAL_WIDTH
-        candles.shift()
-        addNewCandle()
+      if (offsetRef.current >= TOTAL_WIDTH) {
+        offsetRef.current -= TOTAL_WIDTH
+        candlesRef.current.shift()
+        addNewCandle(dimensionsRef.current.height)
       }
       
       draw()
-      animationId = requestAnimationFrame(animate)
+      animationRef.current = requestAnimationFrame(animate)
     }
+
+    // Intersection Observer to pause animation when not visible
+    const observer = new IntersectionObserver(
+      (entries) => {
+        isVisibleRef.current = entries[0]?.isIntersecting ?? true
+      },
+      { threshold: 0 }
+    )
+    
+    observer.observe(canvas)
+
+    // Handle visibility change
+    const handleVisibilityChange = () => {
+      isVisibleRef.current = !document.hidden
+    }
+    
+    document.addEventListener("visibilitychange", handleVisibilityChange)
 
     resize()
     animate()
 
-    window.addEventListener("resize", resize)
+    window.addEventListener("resize", resize, { passive: true })
 
     return () => {
-      cancelAnimationFrame(animationId)
+      cancelAnimationFrame(animationRef.current)
       window.removeEventListener("resize", resize)
+      document.removeEventListener("visibilitychange", handleVisibilityChange)
+      observer.disconnect()
     }
-  }, [])
+  }, [generateCandles, addNewCandle, TOTAL_WIDTH, CANDLE_WIDTH, SCROLL_SPEED])
 
   return (
     <div className="absolute inset-0 overflow-hidden">
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full"
-        style={{ opacity: 0.6 }}
+        style={{ opacity: 0.6, willChange: "transform" }}
       />
       
-      {/* Ambient glow overlays - using pointer-events-none to not interfere with canvas */}
+      {/* Ambient glow overlays */}
       <div 
         className="absolute top-1/4 left-1/4 w-[600px] h-[600px] pointer-events-none"
         style={{

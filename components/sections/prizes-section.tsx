@@ -59,7 +59,7 @@ export function PrizesSection() {
               {/* Place badge */}
               <div className="mb-6">
                 <span 
-                  className="text-[4rem] md:text-[5rem] leading-none text-zinc-800"
+                  className="text-[4rem] md:text-[5rem] leading-none text-zinc-600"
                   style={{ fontFamily: 'var(--font-bebas), system-ui' }}
                 >
                   {prize.place}

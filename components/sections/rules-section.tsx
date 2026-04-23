@@ -58,7 +58,7 @@ export function RulesSection() {
           {rules.map((rule) => (
             <div key={rule.number} className="group">
               <div className="flex items-start gap-6">
-                <span className="text-[2.5rem] md:text-[3rem] leading-none tracking-tight text-zinc-800 group-hover:text-zinc-700 transition-colors" style={{ fontFamily: 'var(--font-bebas), system-ui' }}>
+                <span className="text-[2.5rem] md:text-[3rem] leading-none tracking-tight text-zinc-600 group-hover:text-zinc-500 transition-colors" style={{ fontFamily: 'var(--font-bebas), system-ui' }}>
                   {rule.number}
                 </span>
                 <div className="pt-2">
