@@ -2,7 +2,7 @@ import { SectionBackground } from "@/components/section-decorations"
 
 export function AboutSection() {
   return (
-    <section id="about" className="relative py-16 md:py-24 lg:py-28">
+    <section id="about" className="relative py-12 md:py-16 lg:py-20">
       {/* Decorative background */}
       <SectionBackground variant="default" />
       

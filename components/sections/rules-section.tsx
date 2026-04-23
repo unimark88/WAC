@@ -35,7 +35,7 @@ export function RulesSection() {
   ]
 
   return (
-    <section id="rules" className="relative py-16 md:py-24 lg:py-28">
+    <section id="rules" className="relative py-12 md:py-16 lg:py-20">
       {/* Decorative background */}
       <SectionBackground variant="alt" />
       
