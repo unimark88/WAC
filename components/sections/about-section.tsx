@@ -6,10 +6,59 @@ export function AboutSection() {
       {/* Decorative background */}
       <SectionBackground variant="default" />
       
-      {/* Background accent */}
+      {/* Abstract chart graphic background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/2 left-0 w-[600px] h-[300px] bg-[#0099FF]/3 rounded-full blur-[150px] -translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute top-1/2 right-0 w-[600px] h-[300px] bg-[#00D4AA]/3 rounded-full blur-[150px] translate-x-1/2 -translate-y-1/2" />
+        {/* Grid lines */}
+        <svg className="absolute inset-0 w-full h-full opacity-[0.03]" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="aboutGrid" width="60" height="60" patternUnits="userSpaceOnUse">
+              <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#ffffff" strokeWidth="1"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#aboutGrid)" />
+        </svg>
+        
+        {/* Abstract candlestick chart lines - left side */}
+        <svg className="absolute left-0 top-1/2 -translate-y-1/2 w-[300px] md:w-[400px] h-[400px] opacity-10" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/* Uptrend line */}
+          <path d="M 0 350 Q 100 300 150 280 T 250 200 T 350 120 T 400 80" stroke="#00D4AA" strokeWidth="2" fill="none"/>
+          {/* Candlestick wicks */}
+          <line x1="50" y1="320" x2="50" y2="280" stroke="#00D4AA" strokeWidth="2"/>
+          <rect x="45" y="290" width="10" height="20" fill="#00D4AA"/>
+          <line x1="100" y1="290" x2="100" y2="250" stroke="#0099FF" strokeWidth="2"/>
+          <rect x="95" y="260" width="10" height="20" fill="#0099FF"/>
+          <line x1="150" y1="270" x2="150" y2="220" stroke="#00D4AA" strokeWidth="2"/>
+          <rect x="145" y="230" width="10" height="30" fill="#00D4AA"/>
+          <line x1="200" y1="230" x2="200" y2="180" stroke="#00D4AA" strokeWidth="2"/>
+          <rect x="195" y="190" width="10" height="25" fill="#00D4AA"/>
+          <line x1="250" y1="200" x2="250" y2="150" stroke="#0099FF" strokeWidth="2"/>
+          <rect x="245" y="160" width="10" height="25" fill="#0099FF"/>
+          <line x1="300" y1="160" x2="300" y2="110" stroke="#00D4AA" strokeWidth="2"/>
+          <rect x="295" y="120" width="10" height="30" fill="#00D4AA"/>
+        </svg>
+        
+        {/* Abstract candlestick chart lines - right side */}
+        <svg className="absolute right-0 top-1/2 -translate-y-1/2 w-[300px] md:w-[400px] h-[400px] opacity-10" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/* Moving average line */}
+          <path d="M 0 200 Q 80 180 150 220 T 280 160 T 400 180" stroke="#0099FF" strokeWidth="2" fill="none" strokeDasharray="8 4"/>
+          {/* Candlestick wicks */}
+          <line x1="100" y1="220" x2="100" y2="170" stroke="#0099FF" strokeWidth="2"/>
+          <rect x="95" y="185" width="10" height="25" fill="#0099FF"/>
+          <line x1="150" y1="240" x2="150" y2="190" stroke="#00D4AA" strokeWidth="2"/>
+          <rect x="145" y="200" width="10" height="30" fill="#00D4AA"/>
+          <line x1="200" y1="200" x2="200" y2="150" stroke="#00D4AA" strokeWidth="2"/>
+          <rect x="195" y="160" width="10" height="25" fill="#00D4AA"/>
+          <line x1="250" y1="180" x2="250" y2="130" stroke="#0099FF" strokeWidth="2"/>
+          <rect x="245" y="145" width="10" height="20" fill="#0099FF"/>
+          <line x1="300" y1="190" x2="300" y2="140" stroke="#00D4AA" strokeWidth="2"/>
+          <rect x="295" y="150" width="10" height="30" fill="#00D4AA"/>
+          <line x1="350" y1="170" x2="350" y2="130" stroke="#00D4AA" strokeWidth="2"/>
+          <rect x="345" y="140" width="10" height="20" fill="#00D4AA"/>
+        </svg>
+        
+        {/* Glow accents */}
+        <div className="absolute top-1/2 left-0 w-[600px] h-[300px] bg-[#0099FF]/5 rounded-full blur-[150px] -translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute top-1/2 right-0 w-[600px] h-[300px] bg-[#00D4AA]/5 rounded-full blur-[150px] translate-x-1/2 -translate-y-1/2" />
       </div>
 
       <div className="relative max-w-4xl mx-auto px-6 lg:px-8">
