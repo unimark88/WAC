@@ -22,7 +22,7 @@ export function AboutSection() {
         </div>
 
         {/* SEO Content */}
-        <div className="space-y-6 text-zinc-400 text-base md:text-lg leading-relaxed">
+        <div className="space-y-5 text-zinc-400 text-sm md:text-base leading-relaxed">
           <p>
             The World Alpha Championship (WAC) is the premier global forex trading competition, bringing together the most skilled traders from around the world to compete for prestigious titles and substantial prize pools. Our championship provides a transparent, fair, and professional platform where traders can demonstrate their expertise in the foreign exchange markets.
           </p>
