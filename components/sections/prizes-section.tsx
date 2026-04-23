@@ -27,7 +27,7 @@ export function PrizesSection() {
   ]
 
   return (
-    <section id="prizes" className="relative py-32 md:py-40 lg:py-48 bg-[#08080a]">
+    <section id="prizes" className="relative py-16 md:py-24 lg:py-28 bg-[#08080a]">
       {/* Decorative background */}
       <SectionBackground variant="alt" />
       
@@ -39,7 +39,7 @@ export function PrizesSection() {
 
       <div className="relative max-w-6xl mx-auto px-6 lg:px-8">
         {/* Section header */}
-        <div className="mb-20 md:mb-28 text-center">
+        <div className="mb-12 md:mb-16 text-center">
           <span className="text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-[#0099FF]">
             Rewards
           </span>
