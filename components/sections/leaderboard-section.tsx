@@ -68,7 +68,7 @@ export function LeaderboardSection() {
                 >
                   <td className="py-4 md:py-5">
                     <span 
-                      className={`text-xl md:text-2xl ${index < 3 ? 'text-white' : 'text-zinc-700'}`}
+                      className={`text-xl md:text-2xl ${index < 3 ? 'text-white' : 'text-zinc-500'}`}
                       style={{ fontFamily: 'var(--font-bebas), system-ui' }}
                     >
                       {String(trader.rank).padStart(2, '0')}
