@@ -56,7 +56,7 @@ export function LeaderboardSection() {
               <tr className="border-b border-zinc-800/50">
                 <th className="pb-4 text-left text-[10px] uppercase tracking-[0.2em] text-zinc-600 font-normal w-12 md:w-20">Rank</th>
                 <th className="pb-4 text-left text-[10px] uppercase tracking-[0.2em] text-zinc-600 font-normal">Trader</th>
-                <th className="pb-4 text-center text-[10px] uppercase tracking-[0.2em] text-zinc-600 font-normal hidden md:table-cell">Country</th>
+                <th className="pb-4 text-left text-[10px] uppercase tracking-[0.2em] text-zinc-600 font-normal hidden md:table-cell">Country</th>
                 <th className="pb-4 text-right text-[10px] uppercase tracking-[0.2em] text-zinc-600 font-normal">Profit</th>
               </tr>
             </thead>
@@ -82,8 +82,8 @@ export function LeaderboardSection() {
                     </div>
                   </td>
                   {/* Country column with flag - desktop only */}
-                  <td className="py-4 md:py-5 text-center hidden md:table-cell">
-                    <div className="flex items-center justify-center gap-2">
+                  <td className="py-4 md:py-5 text-left hidden md:table-cell">
+                    <div className="flex items-center gap-2">
                       <span className="text-xl">{trader.flag}</span>
                       <span className="text-zinc-500 text-sm">{trader.country}</span>
                     </div>
