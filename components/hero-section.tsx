@@ -1,14 +1,10 @@
 import { HeroBackground } from "./hero-background"
-import { AbstractVisuals } from "./abstract-visuals"
 
 export function HeroSection() {
   return (
     <section className="relative min-h-screen flex flex-col">
       {/* Background layers */}
       <HeroBackground />
-      
-      {/* Abstract visual elements */}
-      <AbstractVisuals />
       
       {/* Main content */}
       <div className="relative flex-1 flex flex-col items-center justify-center px-6 pt-24 pb-32 md:pt-32 md:pb-40">
