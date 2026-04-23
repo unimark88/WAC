@@ -224,45 +224,45 @@ export function HeroBackground() {
     <div className="absolute inset-0 overflow-hidden">
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full opacity-50"
+        className="absolute inset-0 w-full h-full"
+        style={{ opacity: 0.6 }}
       />
       
-      {/* Ambient glow overlays */}
+      {/* Ambient glow overlays - using pointer-events-none to not interfere with canvas */}
       <div 
-        className="absolute top-1/4 left-1/4 w-[600px] h-[600px] animate-pulse-glow"
+        className="absolute top-1/4 left-1/4 w-[600px] h-[600px] pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, rgba(0,212,170,0.06) 0%, transparent 60%)',
+          background: 'radial-gradient(circle, rgba(0,212,170,0.08) 0%, transparent 60%)',
         }}
       />
       <div 
-        className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] animate-pulse-glow"
+        className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, rgba(0,153,255,0.05) 0%, transparent 60%)',
-          animationDelay: '2s',
+          background: 'radial-gradient(circle, rgba(0,153,255,0.06) 0%, transparent 60%)',
         }}
       />
       
       {/* Center focus vignette */}
       <div 
-        className="absolute inset-0"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse 70% 60% at 50% 50%, transparent 0%, rgba(5,5,7,0.7) 100%)',
+          background: 'radial-gradient(ellipse 80% 70% at 50% 50%, transparent 0%, rgba(5,5,7,0.5) 100%)',
         }}
       />
       
       {/* Bottom vignette */}
       <div 
-        className="absolute inset-0"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          background: 'linear-gradient(to top, rgba(5,5,7,0.95) 0%, rgba(5,5,7,0.5) 30%, transparent 60%)',
+          background: 'linear-gradient(to top, rgba(5,5,7,0.9) 0%, rgba(5,5,7,0.3) 25%, transparent 50%)',
         }}
       />
       
       {/* Top vignette */}
       <div 
-        className="absolute inset-0"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          background: 'linear-gradient(to bottom, rgba(5,5,7,0.7) 0%, transparent 30%)',
+          background: 'linear-gradient(to bottom, rgba(5,5,7,0.5) 0%, transparent 25%)',
         }}
       />
     </div>
