@@ -27,7 +27,7 @@ export function PrizesSection() {
   ]
 
   return (
-    <section id="prizes" className="relative py-16 md:py-24 lg:py-28 bg-[#08080a]">
+    <section id="prizes" className="relative py-12 md:py-16 lg:py-20 bg-[#08080a]">
       {/* Decorative background */}
       <SectionBackground variant="alt" />
       

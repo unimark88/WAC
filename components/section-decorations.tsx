@@ -1,6 +1,6 @@
 export function SectionDivider() {
   return (
-    <div className="relative h-12 md:h-16 overflow-hidden">
+    <div className="relative h-6 md:h-8 overflow-hidden">
       {/* Horizontal gradient lines */}
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="w-full max-w-4xl px-8">

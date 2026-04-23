@@ -28,7 +28,7 @@ export function LeaderboardSection() {
   }
 
   return (
-    <section id="leaderboard" className="relative py-16 md:py-24 lg:py-28">
+    <section id="leaderboard" className="relative py-12 md:py-16 lg:py-20">
       {/* Decorative background */}
       <SectionBackground variant="default" />
       
