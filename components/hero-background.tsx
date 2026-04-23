@@ -3,7 +3,6 @@
 import { useEffect, useRef } from "react"
 
 interface Candle {
-  x: number
   open: number
   close: number
   high: number
@@ -14,48 +13,38 @@ interface Candle {
 
 export function HeroBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const animationRef = useRef<number>(0)
-  const offsetRef = useRef<number>(0)
-  const candlesRef = useRef<Candle[]>([])
-  const lastTimeRef = useRef<number>(0)
 
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const ctx = canvas.getContext("2d", { alpha: false })
+    const ctx = canvas.getContext("2d")
     if (!ctx) return
 
     const CANDLE_WIDTH = 12
     const CANDLE_GAP = 6
     const TOTAL_WIDTH = CANDLE_WIDTH + CANDLE_GAP
-    const SCROLL_SPEED = 0.015 // pixels per ms
+    const SCROLL_SPEED = 0.5
 
-    // Pre-computed colors
-    const GREEN_BODY = "rgba(0, 212, 170, 0.6)"
-    const GREEN_WICK = "rgba(0, 212, 170, 0.42)"
-    const GREEN_VOLUME = "rgba(0, 212, 170, 0.15)"
-    const GREEN_MA = "rgba(0, 212, 170, 0.4)"
-    const BLUE_BODY = "rgba(0, 153, 255, 0.6)"
-    const BLUE_WICK = "rgba(0, 153, 255, 0.42)"
-    const BLUE_VOLUME = "rgba(0, 153, 255, 0.15)"
-    const BLUE_MA = "rgba(0, 153, 255, 0.35)"
+    let animationId: number
+    let offset = 0
+    let candles: Candle[] = []
+    let width = 0
+    let height = 0
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2)
-      canvas.width = window.innerWidth * dpr
-      canvas.height = window.innerHeight * dpr
-      canvas.style.width = `${window.innerWidth}px`
-      canvas.style.height = `${window.innerHeight}px`
-      ctx.scale(dpr, dpr)
+      width = window.innerWidth
+      height = window.innerHeight
+      canvas.width = width
+      canvas.height = height
       generateCandles()
     }
 
     const generateCandles = () => {
-      const candles: Candle[] = []
-      const candleCount = Math.ceil(window.innerWidth / TOTAL_WIDTH) + 25
+      candles = []
+      const candleCount = Math.ceil(width / TOTAL_WIDTH) + 30
       
-      let lastClose = window.innerHeight * 0.5
+      let lastClose = height * 0.5
       
       for (let i = 0; i < candleCount; i++) {
         const volatility = Math.random() * 80 + 30
@@ -63,7 +52,7 @@ export function HeroBackground() {
         const movement = direction * (Math.random() * volatility)
         
         const open = lastClose
-        const close = Math.max(window.innerHeight * 0.2, Math.min(window.innerHeight * 0.8, open + movement))
+        const close = Math.max(height * 0.2, Math.min(height * 0.8, open + movement))
         const isGreen = close < open
         
         const wickExtension = Math.random() * 40 + 10
@@ -71,7 +60,6 @@ export function HeroBackground() {
         const low = Math.max(open, close) + wickExtension
         
         candles.push({
-          x: i * TOTAL_WIDTH,
           open,
           close,
           high,
@@ -82,11 +70,9 @@ export function HeroBackground() {
         
         lastClose = close
       }
-      candlesRef.current = candles
     }
 
     const addNewCandle = () => {
-      const candles = candlesRef.current
       if (candles.length === 0) return
       
       const lastCandle = candles[candles.length - 1]
@@ -96,7 +82,7 @@ export function HeroBackground() {
       const movement = direction * (Math.random() * volatility)
       
       const open = lastCandle.close
-      const close = Math.max(window.innerHeight * 0.2, Math.min(window.innerHeight * 0.8, open + movement))
+      const close = Math.max(height * 0.2, Math.min(height * 0.8, open + movement))
       const isGreen = close < open
       
       const wickExtension = Math.random() * 40 + 10
@@ -104,7 +90,6 @@ export function HeroBackground() {
       const low = Math.max(open, close) + wickExtension
       
       candles.push({
-        x: lastCandle.x + TOTAL_WIDTH,
         open,
         close,
         high,
@@ -115,12 +100,10 @@ export function HeroBackground() {
     }
 
     const draw = () => {
-      const width = window.innerWidth
-      const height = window.innerHeight
-      const candles = candlesRef.current
-      const offset = offsetRef.current
-
-      // Clear and fill background
+      // Clear canvas completely
+      ctx.clearRect(0, 0, width, height)
+      
+      // Fill background
       ctx.fillStyle = "#050507"
       ctx.fillRect(0, 0, width, height)
 
@@ -128,9 +111,8 @@ export function HeroBackground() {
       ctx.strokeStyle = "rgba(255, 255, 255, 0.03)"
       ctx.lineWidth = 1
       
-      const hLineCount = 8
-      for (let i = 0; i <= hLineCount; i++) {
-        const y = (height / hLineCount) * i
+      for (let i = 0; i <= 8; i++) {
+        const y = (height / 8) * i
         ctx.beginPath()
         ctx.moveTo(0, y)
         ctx.lineTo(width, y)
@@ -138,9 +120,8 @@ export function HeroBackground() {
       }
       
       ctx.setLineDash([4, 8])
-      const vLineCount = 12
-      for (let i = 0; i <= vLineCount; i++) {
-        const x = (width / vLineCount) * i
+      for (let i = 0; i <= 12; i++) {
+        const x = (width / 12) * i
         ctx.beginPath()
         ctx.moveTo(x, 0)
         ctx.lineTo(x, height)
@@ -152,22 +133,22 @@ export function HeroBackground() {
       const maxVolumeHeight = height * 0.15
       for (let i = 0; i < candles.length; i++) {
         const candle = candles[i]
-        const x = candle.x - offset
+        const x = i * TOTAL_WIDTH - offset
         if (x < -TOTAL_WIDTH || x > width + TOTAL_WIDTH) continue
         
         const volHeight = candle.volume * maxVolumeHeight
-        ctx.fillStyle = candle.isGreen ? GREEN_VOLUME : BLUE_VOLUME
+        ctx.fillStyle = candle.isGreen ? "rgba(0, 212, 170, 0.15)" : "rgba(0, 153, 255, 0.15)"
         ctx.fillRect(x, height - volHeight, CANDLE_WIDTH, volHeight)
       }
 
       // Draw candles
       for (let i = 0; i < candles.length; i++) {
         const candle = candles[i]
-        const x = candle.x - offset
+        const x = i * TOTAL_WIDTH - offset
         if (x < -CANDLE_WIDTH || x > width + CANDLE_WIDTH) continue
 
         // Wick
-        ctx.strokeStyle = candle.isGreen ? GREEN_WICK : BLUE_WICK
+        ctx.strokeStyle = candle.isGreen ? "rgba(0, 212, 170, 0.42)" : "rgba(0, 153, 255, 0.42)"
         ctx.lineWidth = 1
         ctx.beginPath()
         ctx.moveTo(x + CANDLE_WIDTH / 2, candle.high)
@@ -177,7 +158,7 @@ export function HeroBackground() {
         // Body
         const bodyTop = Math.min(candle.open, candle.close)
         const bodyHeight = Math.abs(candle.close - candle.open)
-        ctx.fillStyle = candle.isGreen ? GREEN_BODY : BLUE_BODY
+        ctx.fillStyle = candle.isGreen ? "rgba(0, 212, 170, 0.6)" : "rgba(0, 153, 255, 0.6)"
         ctx.fillRect(x, bodyTop, CANDLE_WIDTH, Math.max(bodyHeight, 2))
       }
 
@@ -191,7 +172,7 @@ export function HeroBackground() {
         
         let started = false
         for (let i = period - 1; i < candles.length; i++) {
-          const x = candles[i].x - offset
+          const x = i * TOTAL_WIDTH - offset
           if (x < -50 || x > width + 50) continue
           
           let sum = 0
@@ -210,39 +191,31 @@ export function HeroBackground() {
         ctx.stroke()
       }
       
-      drawMA(7, GREEN_MA, -20)
-      drawMA(21, BLUE_MA, 20)
+      drawMA(7, "rgba(0, 212, 170, 0.4)", -20)
+      drawMA(21, "rgba(0, 153, 255, 0.35)", 20)
     }
 
-    const animate = (currentTime: number) => {
-      if (lastTimeRef.current === 0) {
-        lastTimeRef.current = currentTime
-      }
+    const animate = () => {
+      offset += SCROLL_SPEED
       
-      const deltaTime = currentTime - lastTimeRef.current
-      lastTimeRef.current = currentTime
-      
-      // Smooth offset update based on delta time
-      offsetRef.current += SCROLL_SPEED * deltaTime
-      
-      // When we've scrolled one candle width, shift and add new
-      if (offsetRef.current >= TOTAL_WIDTH) {
-        offsetRef.current -= TOTAL_WIDTH
-        candlesRef.current.shift()
+      // When scrolled one candle width, remove first and add new
+      if (offset >= TOTAL_WIDTH) {
+        offset -= TOTAL_WIDTH
+        candles.shift()
         addNewCandle()
       }
       
       draw()
-      animationRef.current = requestAnimationFrame(animate)
+      animationId = requestAnimationFrame(animate)
     }
 
     resize()
-    animationRef.current = requestAnimationFrame(animate)
+    animate()
 
     window.addEventListener("resize", resize)
 
     return () => {
-      cancelAnimationFrame(animationRef.current)
+      cancelAnimationFrame(animationId)
       window.removeEventListener("resize", resize)
     }
   }, [])
@@ -252,7 +225,6 @@ export function HeroBackground() {
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full opacity-50"
-        style={{ willChange: 'transform' }}
       />
       
       {/* Ambient glow overlays */}
