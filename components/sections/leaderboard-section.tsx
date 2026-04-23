@@ -1,3 +1,5 @@
+import { SectionBackground } from "@/components/section-decorations"
+
 export function LeaderboardSection() {
   const traders = [
     { rank: 1, name: "Alex Chen", flag: "🇸🇬", country: "Singapore", profit: 48250 },
@@ -27,6 +29,9 @@ export function LeaderboardSection() {
 
   return (
     <section id="leaderboard" className="relative py-32 md:py-40 lg:py-48">
+      {/* Decorative background */}
+      <SectionBackground variant="default" />
+      
       {/* Background accent */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute bottom-0 left-1/2 w-[800px] h-[400px] bg-[#00D4AA]/3 rounded-full blur-[200px] -translate-x-1/2 translate-y-1/2" />

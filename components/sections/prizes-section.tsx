@@ -1,3 +1,5 @@
+import { SectionBackground } from "@/components/section-decorations"
+
 export function PrizesSection() {
   const prizes = [
     {
@@ -26,6 +28,9 @@ export function PrizesSection() {
 
   return (
     <section id="prizes" className="relative py-32 md:py-40 lg:py-48 bg-[#08080a]">
+      {/* Decorative background */}
+      <SectionBackground variant="alt" />
+      
       {/* Background accents */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-[#0099FF]/5 rounded-full blur-[150px] -translate-x-1/2 -translate-y-1/2" />

@@ -1,6 +1,11 @@
+import { SectionBackground } from "@/components/section-decorations"
+
 export function AboutSection() {
   return (
     <section id="about" className="relative py-24 md:py-32 lg:py-40">
+      {/* Decorative background */}
+      <SectionBackground variant="default" />
+      
       {/* Background accent */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/2 left-0 w-[600px] h-[300px] bg-[#0099FF]/3 rounded-full blur-[150px] -translate-x-1/2 -translate-y-1/2" />

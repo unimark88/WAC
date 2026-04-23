@@ -1,3 +1,5 @@
+import { SectionBackground } from "@/components/section-decorations"
+
 export function RulesSection() {
   const rules = [
     {
@@ -34,6 +36,9 @@ export function RulesSection() {
 
   return (
     <section id="rules" className="relative py-32 md:py-40 lg:py-48">
+      {/* Decorative background */}
+      <SectionBackground variant="alt" />
+      
       {/* Background accent */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-[#00D4AA]/5 rounded-full blur-[150px] -translate-y-1/2 -translate-x-1/2" />
