@@ -1,4 +1,5 @@
 import { SectionBackground } from "@/components/section-decorations"
+import { Trophy, Target, TrendingUp, Award } from "lucide-react"
 
 export function PrizesSection() {
   const prizes = [
@@ -20,10 +21,10 @@ export function PrizesSection() {
   ]
 
   const additionalPrizes = [
-    { place: "4th - 10th", amount: "$5,000 each" },
-    { place: "11th - 25th", amount: "$1,000 each" },
-    { place: "Best Risk Management", amount: "$10,000" },
-    { place: "Most Consistent", amount: "$10,000" },
+    { place: "4th - 10th", amount: "$5,000 each", icon: Trophy, color: "#00D4AA" },
+    { place: "11th - 25th", amount: "$1,000 each", icon: Award, color: "#0099FF" },
+    { place: "Best Risk Management", amount: "$10,000", icon: Target, color: "#00D4AA" },
+    { place: "Most Consistent", amount: "$10,000", icon: TrendingUp, color: "#0099FF" },
   ]
 
   return (
@@ -94,16 +95,36 @@ export function PrizesSection() {
 
         {/* Additional prizes */}
         <div className="border-t border-zinc-800/50 pt-12">
-          <h3 className="text-xs uppercase tracking-[0.2em] text-zinc-500 mb-8">Additional Prizes</h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {additionalPrizes.map((prize) => (
-              <div key={prize.place}>
-                <div className="text-sm text-zinc-300 mb-1">{prize.place}</div>
-                <div className="text-xl text-white" style={{ fontFamily: 'var(--font-bebas), system-ui' }}>
-                  {prize.amount}
+          <h3 className="text-xs uppercase tracking-[0.2em] text-zinc-500 mb-8 text-center">Additional Prizes</h3>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            {additionalPrizes.map((prize) => {
+              const Icon = prize.icon
+              return (
+                <div 
+                  key={prize.place}
+                  className="relative p-5 md:p-6 border border-zinc-800/50 bg-zinc-900/30 rounded-lg group hover:border-zinc-700/50 transition-colors"
+                >
+                  {/* Icon */}
+                  <div 
+                    className="w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center mb-4"
+                    style={{ backgroundColor: `${prize.color}15` }}
+                  >
+                    <Icon className="w-5 h-5 md:w-6 md:h-6" style={{ color: prize.color }} />
+                  </div>
+                  
+                  {/* Place */}
+                  <div className="text-xs md:text-sm text-zinc-400 mb-1">{prize.place}</div>
+                  
+                  {/* Amount */}
+                  <div 
+                    className="text-xl md:text-2xl text-white"
+                    style={{ fontFamily: 'var(--font-bebas), system-ui' }}
+                  >
+                    {prize.amount}
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </div>
