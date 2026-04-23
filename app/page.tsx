@@ -5,14 +5,11 @@ import { RulesSection } from "@/components/sections/rules-section"
 import { LeaderboardSection } from "@/components/sections/leaderboard-section"
 import { PrizesSection } from "@/components/sections/prizes-section"
 import { Footer } from "@/components/footer"
-import { SectionDivider, SideAccents } from "@/components/section-decorations"
+import { SectionDivider } from "@/components/section-decorations"
 
 export default function HomePage() {
   return (
     <main className="relative min-h-screen bg-[#050507]">
-      {/* Global decorative elements */}
-      <SideAccents />
-      
       <Navigation />
       <HeroSection />
       <SectionDivider />
