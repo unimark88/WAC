@@ -35,7 +35,7 @@ export function RulesSection() {
   ]
 
   return (
-    <section id="rules" className="relative py-32 md:py-40 lg:py-48">
+    <section id="rules" className="relative py-16 md:py-24 lg:py-28">
       {/* Decorative background */}
       <SectionBackground variant="alt" />
       
@@ -46,7 +46,7 @@ export function RulesSection() {
 
       <div className="relative max-w-6xl mx-auto px-6 lg:px-8">
         {/* Section header */}
-        <div className="mb-20 md:mb-28">
+        <div className="mb-12 md:mb-16">
           <span className="text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-[#00D4AA]">
             Competition Guidelines
           </span>
