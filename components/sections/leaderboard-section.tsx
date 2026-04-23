@@ -1,15 +1,15 @@
 export function LeaderboardSection() {
   const traders = [
-    { rank: 1, name: "—", country: "—", profit: "—", drawdown: "—" },
-    { rank: 2, name: "—", country: "—", profit: "—", drawdown: "—" },
-    { rank: 3, name: "—", country: "—", profit: "—", drawdown: "—" },
-    { rank: 4, name: "—", country: "—", profit: "—", drawdown: "—" },
-    { rank: 5, name: "—", country: "—", profit: "—", drawdown: "—" },
-    { rank: 6, name: "—", country: "—", profit: "—", drawdown: "—" },
-    { rank: 7, name: "—", country: "—", profit: "—", drawdown: "—" },
-    { rank: 8, name: "—", country: "—", profit: "—", drawdown: "—" },
-    { rank: 9, name: "—", country: "—", profit: "—", drawdown: "—" },
-    { rank: 10, name: "—", country: "—", profit: "—", drawdown: "—" },
+    { rank: 1, name: "Alex Chen", country: "Singapore", profit: "$48,250" },
+    { rank: 2, name: "Marcus Weber", country: "Germany", profit: "$41,780" },
+    { rank: 3, name: "Yuki Tanaka", country: "Japan", profit: "$38,920" },
+    { rank: 4, name: "Elena Rossi", country: "Italy", profit: "$35,410" },
+    { rank: 5, name: "James Mitchell", country: "United Kingdom", profit: "$31,850" },
+    { rank: 6, name: "Sofia Martinez", country: "Spain", profit: "$28,340" },
+    { rank: 7, name: "David Kim", country: "South Korea", profit: "$25,680" },
+    { rank: 8, name: "Anna Kowalski", country: "Poland", profit: "$22,150" },
+    { rank: 9, name: "Lucas Silva", country: "Brazil", profit: "$19,820" },
+    { rank: 10, name: "Nina Petrova", country: "Russia", profit: "$17,450" },
   ]
 
   return (
