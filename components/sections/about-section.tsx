@@ -6,59 +6,82 @@ export function AboutSection() {
       {/* Decorative background */}
       <SectionBackground variant="default" />
       
-      {/* Abstract chart graphic background */}
+      {/* Abstract Earth/Globe graphic background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Grid lines */}
-        <svg className="absolute inset-0 w-full h-full opacity-[0.03]" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="aboutGrid" width="60" height="60" patternUnits="userSpaceOnUse">
-              <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#ffffff" strokeWidth="1"/>
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#aboutGrid)" />
-        </svg>
+        {/* Central abstract globe */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] md:w-[700px] md:h-[700px] lg:w-[900px] lg:h-[900px]">
+          {/* Globe glow */}
+          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#00D4AA]/10 via-transparent to-[#0099FF]/10 blur-[60px]" />
+          
+          {/* Globe SVG */}
+          <svg className="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {/* Outer circle */}
+            <circle cx="200" cy="200" r="180" stroke="url(#globeGradient)" strokeWidth="1.5" fill="none"/>
+            
+            {/* Latitude lines */}
+            <ellipse cx="200" cy="200" rx="180" ry="60" stroke="#00D4AA" strokeWidth="0.8" fill="none" opacity="0.6"/>
+            <ellipse cx="200" cy="200" rx="180" ry="120" stroke="#00D4AA" strokeWidth="0.8" fill="none" opacity="0.4"/>
+            <ellipse cx="200" cy="200" rx="180" ry="160" stroke="#00D4AA" strokeWidth="0.8" fill="none" opacity="0.3"/>
+            
+            {/* Longitude lines */}
+            <ellipse cx="200" cy="200" rx="60" ry="180" stroke="#0099FF" strokeWidth="0.8" fill="none" opacity="0.6"/>
+            <ellipse cx="200" cy="200" rx="120" ry="180" stroke="#0099FF" strokeWidth="0.8" fill="none" opacity="0.4"/>
+            <ellipse cx="200" cy="200" rx="160" ry="180" stroke="#0099FF" strokeWidth="0.8" fill="none" opacity="0.3"/>
+            
+            {/* Tilted longitude for 3D effect */}
+            <ellipse cx="200" cy="200" rx="90" ry="180" stroke="#00D4AA" strokeWidth="0.8" fill="none" opacity="0.5" transform="rotate(30 200 200)"/>
+            <ellipse cx="200" cy="200" rx="90" ry="180" stroke="#0099FF" strokeWidth="0.8" fill="none" opacity="0.5" transform="rotate(-30 200 200)"/>
+            <ellipse cx="200" cy="200" rx="140" ry="180" stroke="#00D4AA" strokeWidth="0.8" fill="none" opacity="0.3" transform="rotate(60 200 200)"/>
+            <ellipse cx="200" cy="200" rx="140" ry="180" stroke="#0099FF" strokeWidth="0.8" fill="none" opacity="0.3" transform="rotate(-60 200 200)"/>
+            
+            {/* Connection points / nodes representing global traders */}
+            <circle cx="120" cy="140" r="4" fill="#00D4AA"/>
+            <circle cx="280" cy="160" r="4" fill="#0099FF"/>
+            <circle cx="200" cy="80" r="4" fill="#00D4AA"/>
+            <circle cx="150" cy="260" r="4" fill="#0099FF"/>
+            <circle cx="260" cy="280" r="4" fill="#00D4AA"/>
+            <circle cx="100" cy="200" r="3" fill="#0099FF"/>
+            <circle cx="300" cy="220" r="3" fill="#00D4AA"/>
+            <circle cx="180" cy="320" r="3" fill="#0099FF"/>
+            <circle cx="240" cy="100" r="3" fill="#00D4AA"/>
+            
+            {/* Connection lines between nodes */}
+            <line x1="120" y1="140" x2="200" y2="80" stroke="#00D4AA" strokeWidth="0.5" opacity="0.4"/>
+            <line x1="200" y1="80" x2="280" y2="160" stroke="#0099FF" strokeWidth="0.5" opacity="0.4"/>
+            <line x1="280" y1="160" x2="260" y2="280" stroke="#00D4AA" strokeWidth="0.5" opacity="0.4"/>
+            <line x1="120" y1="140" x2="150" y2="260" stroke="#0099FF" strokeWidth="0.5" opacity="0.4"/>
+            <line x1="150" y1="260" x2="260" y2="280" stroke="#00D4AA" strokeWidth="0.5" opacity="0.4"/>
+            <line x1="100" y1="200" x2="120" y2="140" stroke="#0099FF" strokeWidth="0.5" opacity="0.3"/>
+            <line x1="300" y1="220" x2="280" y2="160" stroke="#00D4AA" strokeWidth="0.5" opacity="0.3"/>
+            
+            {/* Gradient definition */}
+            <defs>
+              <linearGradient id="globeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#00D4AA"/>
+                <stop offset="50%" stopColor="#0099FF"/>
+                <stop offset="100%" stopColor="#00D4AA"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          
+          {/* Orbiting ring */}
+          <div className="absolute inset-[-20px] md:inset-[-30px]">
+            <svg className="w-full h-full opacity-15" viewBox="0 0 440 440" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="220" cy="220" rx="210" ry="70" stroke="url(#orbitGradient)" strokeWidth="1" fill="none" transform="rotate(-20 220 220)"/>
+              <defs>
+                <linearGradient id="orbitGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#00D4AA" stopOpacity="0"/>
+                  <stop offset="50%" stopColor="#0099FF"/>
+                  <stop offset="100%" stopColor="#00D4AA" stopOpacity="0"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+        </div>
         
-        {/* Abstract candlestick chart lines - left side */}
-        <svg className="absolute left-0 top-1/2 -translate-y-1/2 w-[300px] md:w-[400px] h-[400px] opacity-10" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {/* Uptrend line */}
-          <path d="M 0 350 Q 100 300 150 280 T 250 200 T 350 120 T 400 80" stroke="#00D4AA" strokeWidth="2" fill="none"/>
-          {/* Candlestick wicks */}
-          <line x1="50" y1="320" x2="50" y2="280" stroke="#00D4AA" strokeWidth="2"/>
-          <rect x="45" y="290" width="10" height="20" fill="#00D4AA"/>
-          <line x1="100" y1="290" x2="100" y2="250" stroke="#0099FF" strokeWidth="2"/>
-          <rect x="95" y="260" width="10" height="20" fill="#0099FF"/>
-          <line x1="150" y1="270" x2="150" y2="220" stroke="#00D4AA" strokeWidth="2"/>
-          <rect x="145" y="230" width="10" height="30" fill="#00D4AA"/>
-          <line x1="200" y1="230" x2="200" y2="180" stroke="#00D4AA" strokeWidth="2"/>
-          <rect x="195" y="190" width="10" height="25" fill="#00D4AA"/>
-          <line x1="250" y1="200" x2="250" y2="150" stroke="#0099FF" strokeWidth="2"/>
-          <rect x="245" y="160" width="10" height="25" fill="#0099FF"/>
-          <line x1="300" y1="160" x2="300" y2="110" stroke="#00D4AA" strokeWidth="2"/>
-          <rect x="295" y="120" width="10" height="30" fill="#00D4AA"/>
-        </svg>
-        
-        {/* Abstract candlestick chart lines - right side */}
-        <svg className="absolute right-0 top-1/2 -translate-y-1/2 w-[300px] md:w-[400px] h-[400px] opacity-10" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {/* Moving average line */}
-          <path d="M 0 200 Q 80 180 150 220 T 280 160 T 400 180" stroke="#0099FF" strokeWidth="2" fill="none" strokeDasharray="8 4"/>
-          {/* Candlestick wicks */}
-          <line x1="100" y1="220" x2="100" y2="170" stroke="#0099FF" strokeWidth="2"/>
-          <rect x="95" y="185" width="10" height="25" fill="#0099FF"/>
-          <line x1="150" y1="240" x2="150" y2="190" stroke="#00D4AA" strokeWidth="2"/>
-          <rect x="145" y="200" width="10" height="30" fill="#00D4AA"/>
-          <line x1="200" y1="200" x2="200" y2="150" stroke="#00D4AA" strokeWidth="2"/>
-          <rect x="195" y="160" width="10" height="25" fill="#00D4AA"/>
-          <line x1="250" y1="180" x2="250" y2="130" stroke="#0099FF" strokeWidth="2"/>
-          <rect x="245" y="145" width="10" height="20" fill="#0099FF"/>
-          <line x1="300" y1="190" x2="300" y2="140" stroke="#00D4AA" strokeWidth="2"/>
-          <rect x="295" y="150" width="10" height="30" fill="#00D4AA"/>
-          <line x1="350" y1="170" x2="350" y2="130" stroke="#00D4AA" strokeWidth="2"/>
-          <rect x="345" y="140" width="10" height="20" fill="#00D4AA"/>
-        </svg>
-        
-        {/* Glow accents */}
-        <div className="absolute top-1/2 left-0 w-[600px] h-[300px] bg-[#0099FF]/5 rounded-full blur-[150px] -translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute top-1/2 right-0 w-[600px] h-[300px] bg-[#00D4AA]/5 rounded-full blur-[150px] translate-x-1/2 -translate-y-1/2" />
+        {/* Additional glow accents */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-[#00D4AA]/8 rounded-full blur-[100px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-[#0099FF]/6 rounded-full blur-[80px]" />
       </div>
 
       <div className="relative max-w-4xl mx-auto px-6 lg:px-8">
