@@ -21,7 +21,6 @@ export default function HomePage() {
       <RulesSection />
       <SectionDivider />
       <LeaderboardSection />
-      <SectionDivider />
       <PrizesSection />
       <Footer />
     </main>
