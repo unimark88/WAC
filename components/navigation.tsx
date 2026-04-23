@@ -1,22 +1,44 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Menu, X } from "lucide-react"
 
 const navItems = [
   { label: "Home", href: "#" },
   { label: "Rules", href: "#rules" },
-  { label: "Schedule", href: "#schedule" },
   { label: "Leaderboard", href: "#leaderboard" },
   { label: "Prizes", href: "#prizes" },
-  { label: "Contact Us", href: "#contact" },
 ]
 
 export function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [hidden, setHidden] = useState(false)
+  const [lastScrollY, setLastScrollY] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setHidden(true)
+        setMobileMenuOpen(false)
+      } else {
+        setHidden(false)
+      }
+      
+      setLastScrollY(currentScrollY)
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [lastScrollY])
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50">
+    <nav 
+      className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ${
+        hidden ? "-translate-y-full" : "translate-y-0"
+      }`}
+    >
       <div className="absolute inset-0 bg-gradient-to-b from-[#050507]/90 via-[#050507]/50 to-transparent pointer-events-none" />
       
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8">

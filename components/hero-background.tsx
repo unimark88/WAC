@@ -1,107 +1,268 @@
+"use client"
+
+import { useEffect, useRef } from "react"
+
+interface Candle {
+  open: number
+  close: number
+  high: number
+  low: number
+  isGreen: boolean
+  volume: number
+}
+
 export function HeroBackground() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const ctx = canvas.getContext("2d")
+    if (!ctx) return
+
+    const CANDLE_WIDTH = 12
+    const CANDLE_GAP = 6
+    const TOTAL_WIDTH = CANDLE_WIDTH + CANDLE_GAP
+    const SCROLL_SPEED = 0.5
+
+    let animationId: number
+    let offset = 0
+    let candles: Candle[] = []
+    let width = 0
+    let height = 0
+
+    const resize = () => {
+      width = window.innerWidth
+      height = window.innerHeight
+      canvas.width = width
+      canvas.height = height
+      generateCandles()
+    }
+
+    const generateCandles = () => {
+      candles = []
+      const candleCount = Math.ceil(width / TOTAL_WIDTH) + 30
+      
+      let lastClose = height * 0.5
+      
+      for (let i = 0; i < candleCount; i++) {
+        const volatility = Math.random() * 80 + 30
+        const direction = Math.random() > 0.45 ? 1 : -1
+        const movement = direction * (Math.random() * volatility)
+        
+        const open = lastClose
+        const close = Math.max(height * 0.2, Math.min(height * 0.8, open + movement))
+        const isGreen = close < open
+        
+        const wickExtension = Math.random() * 40 + 10
+        const high = Math.min(open, close) - wickExtension
+        const low = Math.max(open, close) + wickExtension
+        
+        candles.push({
+          open,
+          close,
+          high,
+          low,
+          isGreen,
+          volume: Math.random() * 0.7 + 0.3
+        })
+        
+        lastClose = close
+      }
+    }
+
+    const addNewCandle = () => {
+      if (candles.length === 0) return
+      
+      const lastCandle = candles[candles.length - 1]
+      
+      const volatility = Math.random() * 80 + 30
+      const direction = Math.random() > 0.45 ? 1 : -1
+      const movement = direction * (Math.random() * volatility)
+      
+      const open = lastCandle.close
+      const close = Math.max(height * 0.2, Math.min(height * 0.8, open + movement))
+      const isGreen = close < open
+      
+      const wickExtension = Math.random() * 40 + 10
+      const high = Math.min(open, close) - wickExtension
+      const low = Math.max(open, close) + wickExtension
+      
+      candles.push({
+        open,
+        close,
+        high,
+        low,
+        isGreen,
+        volume: Math.random() * 0.7 + 0.3
+      })
+    }
+
+    const draw = () => {
+      // Clear canvas completely
+      ctx.clearRect(0, 0, width, height)
+      
+      // Fill background
+      ctx.fillStyle = "#050507"
+      ctx.fillRect(0, 0, width, height)
+
+      // Draw grid lines
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.03)"
+      ctx.lineWidth = 1
+      
+      for (let i = 0; i <= 8; i++) {
+        const y = (height / 8) * i
+        ctx.beginPath()
+        ctx.moveTo(0, y)
+        ctx.lineTo(width, y)
+        ctx.stroke()
+      }
+      
+      ctx.setLineDash([4, 8])
+      for (let i = 0; i <= 12; i++) {
+        const x = (width / 12) * i
+        ctx.beginPath()
+        ctx.moveTo(x, 0)
+        ctx.lineTo(x, height)
+        ctx.stroke()
+      }
+      ctx.setLineDash([])
+
+      // Draw volume bars
+      const maxVolumeHeight = height * 0.15
+      for (let i = 0; i < candles.length; i++) {
+        const candle = candles[i]
+        const x = i * TOTAL_WIDTH - offset
+        if (x < -TOTAL_WIDTH || x > width + TOTAL_WIDTH) continue
+        
+        const volHeight = candle.volume * maxVolumeHeight
+        ctx.fillStyle = candle.isGreen ? "rgba(0, 212, 170, 0.15)" : "rgba(0, 153, 255, 0.15)"
+        ctx.fillRect(x, height - volHeight, CANDLE_WIDTH, volHeight)
+      }
+
+      // Draw candles
+      for (let i = 0; i < candles.length; i++) {
+        const candle = candles[i]
+        const x = i * TOTAL_WIDTH - offset
+        if (x < -CANDLE_WIDTH || x > width + CANDLE_WIDTH) continue
+
+        // Wick
+        ctx.strokeStyle = candle.isGreen ? "rgba(0, 212, 170, 0.42)" : "rgba(0, 153, 255, 0.42)"
+        ctx.lineWidth = 1
+        ctx.beginPath()
+        ctx.moveTo(x + CANDLE_WIDTH / 2, candle.high)
+        ctx.lineTo(x + CANDLE_WIDTH / 2, candle.low)
+        ctx.stroke()
+        
+        // Body
+        const bodyTop = Math.min(candle.open, candle.close)
+        const bodyHeight = Math.abs(candle.close - candle.open)
+        ctx.fillStyle = candle.isGreen ? "rgba(0, 212, 170, 0.6)" : "rgba(0, 153, 255, 0.6)"
+        ctx.fillRect(x, bodyTop, CANDLE_WIDTH, Math.max(bodyHeight, 2))
+      }
+
+      // Draw moving averages
+      const drawMA = (period: number, color: string, lineOffset: number) => {
+        if (candles.length < period) return
+        
+        ctx.beginPath()
+        ctx.strokeStyle = color
+        ctx.lineWidth = 1.5
+        
+        let started = false
+        for (let i = period - 1; i < candles.length; i++) {
+          const x = i * TOTAL_WIDTH - offset
+          if (x < -50 || x > width + 50) continue
+          
+          let sum = 0
+          for (let j = i - period + 1; j <= i; j++) {
+            sum += (candles[j].open + candles[j].close) / 2
+          }
+          const avg = sum / period + lineOffset
+          
+          if (!started) {
+            ctx.moveTo(x, avg)
+            started = true
+          } else {
+            ctx.lineTo(x, avg)
+          }
+        }
+        ctx.stroke()
+      }
+      
+      drawMA(7, "rgba(0, 212, 170, 0.4)", -20)
+      drawMA(21, "rgba(0, 153, 255, 0.35)", 20)
+    }
+
+    const animate = () => {
+      offset += SCROLL_SPEED
+      
+      // When scrolled one candle width, remove first and add new
+      if (offset >= TOTAL_WIDTH) {
+        offset -= TOTAL_WIDTH
+        candles.shift()
+        addNewCandle()
+      }
+      
+      draw()
+      animationId = requestAnimationFrame(animate)
+    }
+
+    resize()
+    animate()
+
+    window.addEventListener("resize", resize)
+
+    return () => {
+      cancelAnimationFrame(animationId)
+      window.removeEventListener("resize", resize)
+    }
+  }, [])
+
   return (
     <div className="absolute inset-0 overflow-hidden">
-      {/* Base gradient */}
-      <div className="absolute inset-0 bg-[#050507]" />
-      
-      {/* Subtle radial gradient for depth */}
-      <div 
-        className="absolute inset-0"
-        style={{
-          background: 'radial-gradient(ellipse 80% 50% at 50% 50%, rgba(0,153,255,0.03) 0%, transparent 70%)',
-        }}
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full"
+        style={{ opacity: 0.6 }}
       />
       
-      {/* World/network grid pattern - very subtle */}
-      <div className="absolute inset-0 animate-grid-pulse">
-        <svg className="w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
-              <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="0.5"/>
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#grid)" />
-        </svg>
-      </div>
-      
-      {/* Left edge trading chart atmosphere */}
-      <div className="absolute left-0 top-1/4 w-[300px] h-[400px] opacity-[0.08] blur-sm">
-        <svg viewBox="0 0 300 400" className="w-full h-full">
-          {/* Candlestick-style chart lines */}
-          <g stroke="#00D4AA" strokeWidth="1.5" fill="none" opacity="0.6">
-            <line x1="20" y1="300" x2="20" y2="250" />
-            <line x1="40" y1="260" x2="40" y2="200" />
-            <line x1="60" y1="220" x2="60" y2="150" />
-            <line x1="80" y1="180" x2="80" y2="120" />
-            <line x1="100" y1="140" x2="100" y2="80" />
-            <line x1="120" y1="100" x2="120" y2="60" />
-          </g>
-          <g stroke="#0099FF" strokeWidth="1.5" fill="none" opacity="0.5">
-            <line x1="140" y1="90" x2="140" y2="130" />
-            <line x1="160" y1="110" x2="160" y2="170" />
-            <line x1="180" y1="150" x2="180" y2="200" />
-          </g>
-          {/* Horizontal support lines */}
-          <g stroke="rgba(255,255,255,0.1)" strokeWidth="0.5" strokeDasharray="4,8">
-            <line x1="0" y1="100" x2="200" y2="100" />
-            <line x1="0" y1="200" x2="200" y2="200" />
-            <line x1="0" y1="300" x2="200" y2="300" />
-          </g>
-        </svg>
-      </div>
-      
-      {/* Right edge trading chart atmosphere */}
-      <div className="absolute right-0 top-1/4 w-[300px] h-[400px] opacity-[0.08] blur-sm">
-        <svg viewBox="0 0 300 400" className="w-full h-full">
-          {/* Candlestick-style chart lines */}
-          <g stroke="#0099FF" strokeWidth="1.5" fill="none" opacity="0.5">
-            <line x1="280" y1="300" x2="280" y2="240" />
-            <line x1="260" y1="250" x2="260" y2="180" />
-            <line x1="240" y1="190" x2="240" y2="130" />
-            <line x1="220" y1="150" x2="220" y2="100" />
-          </g>
-          <g stroke="#00D4AA" strokeWidth="1.5" fill="none" opacity="0.6">
-            <line x1="200" y1="120" x2="200" y2="80" />
-            <line x1="180" y1="100" x2="180" y2="140" />
-            <line x1="160" y1="130" x2="160" y2="190" />
-            <line x1="140" y1="170" x2="140" y2="220" />
-          </g>
-          {/* Horizontal support lines */}
-          <g stroke="rgba(255,255,255,0.1)" strokeWidth="0.5" strokeDasharray="4,8">
-            <line x1="100" y1="120" x2="300" y2="120" />
-            <line x1="100" y1="200" x2="300" y2="200" />
-          </g>
-        </svg>
-      </div>
-      
-      {/* Ambient glow spots */}
+      {/* Ambient glow overlays - using pointer-events-none to not interfere with canvas */}
       <div 
-        className="absolute top-1/3 left-1/4 w-[600px] h-[600px] animate-pulse-glow"
+        className="absolute top-1/4 left-1/4 w-[600px] h-[600px] pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, rgba(0,212,170,0.04) 0%, transparent 60%)',
+          background: 'radial-gradient(circle, rgba(0,212,170,0.08) 0%, transparent 60%)',
         }}
       />
       <div 
-        className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] animate-pulse-glow"
+        className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, rgba(0,153,255,0.04) 0%, transparent 60%)',
-          animationDelay: '2s',
+          background: 'radial-gradient(circle, rgba(0,153,255,0.06) 0%, transparent 60%)',
+        }}
+      />
+      
+      {/* Center focus vignette */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: 'radial-gradient(ellipse 80% 70% at 50% 50%, transparent 0%, rgba(5,5,7,0.5) 100%)',
         }}
       />
       
       {/* Bottom vignette */}
       <div 
-        className="absolute inset-0"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          background: 'linear-gradient(to top, rgba(5,5,7,0.9) 0%, transparent 40%)',
+          background: 'linear-gradient(to top, rgba(5,5,7,0.9) 0%, rgba(5,5,7,0.3) 25%, transparent 50%)',
         }}
       />
       
       {/* Top vignette */}
       <div 
-        className="absolute inset-0"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          background: 'linear-gradient(to bottom, rgba(5,5,7,0.5) 0%, transparent 30%)',
+          background: 'linear-gradient(to bottom, rgba(5,5,7,0.5) 0%, transparent 25%)',
         }}
       />
     </div>
